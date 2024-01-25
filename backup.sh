@@ -86,6 +86,7 @@ log "Starting tar backup dated ${BACKUPDATE}"
 TARCMD="-zcf ${TARFILE} ${BACKUP[*]}"
 
 # Check if there are any exclusions
+TARCMD="--exclude ${TARFILE} ${TARCMD}":
 if [[ "x${EXCLUDE[@]}" != "x" ]]; then
     # Add exclusions to front of command
     for i in "${EXCLUDE[@]}"; do
