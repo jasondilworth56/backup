@@ -174,7 +174,7 @@ CONFIG="${SCRIPTDIR}"/backup.cfg
 
 # Check arguments
 
-elif [ $# == 2 ] && [ "$1" == "--config" ]; then
+if [ $# == 2 ] && [ "$1" == "--config" ]; then
     # Load in config and proceed locally
     CONFIG="$2"
     runLocally
