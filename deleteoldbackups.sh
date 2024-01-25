@@ -158,18 +158,8 @@ runLocally() {
     deleteBackups
 }
 
-runRemotely() {
-    #Send the config and this script to the remote server to be run
-    getAbsoluteConfig
-    source "${CONFIG}"
-    
-    echo "BACKUPHOSTNAME=$(hostname)" > /tmp/hostname
-    cat "${CONFIG}" /tmp/hostname "${SCRIPTDIR}"/deleteoldbackups.sh | ssh -T -p "${REMOTEPORT}" "${REMOTEUSER}"@"${REMOTESERVER}" "/usr/bin/env bash"
-    rm /tmp/hostname
-}
-
 showUsage() {
-    echo "Usage: $0 [--remote] [--config filename]"
+    echo "Usage: $0 [--config filename]"
 }
 
 
@@ -183,8 +173,6 @@ CONFIG="${SCRIPTDIR}"/backup.cfg
 
 
 # Check arguments
-if [ $# == 1 ] && [ "$1" == "--remote" ]; then
-    runRemotely
 
 elif [ $# == 2 ] && [ "$1" == "--config" ]; then
     # Load in config and proceed locally
@@ -192,17 +180,7 @@ elif [ $# == 2 ] && [ "$1" == "--config" ]; then
     runLocally
 
 elif [ $# == 3 ]; then
-    # 3 args: remote + config. Check which way round they're issued
-    if [ "$1" == "--remote" ] && [ "$2" == "--config" ]; then
-        CONFIG="$3"
-        runRemotely
-    elif [ "$1" == "--config" ] && [ "$3" == "--remote" ]; then
-        CONFIG="$2"
-        runRemotely
-    else
-        # Invalid args
-        showUsage
-    fi
+    showUsage
 
 elif [ $# == 0 ]; then
     # No args, run locally
