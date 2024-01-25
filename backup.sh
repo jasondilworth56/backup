@@ -94,8 +94,12 @@ if [[ "x${EXCLUDE[@]}" != "x" ]]; then
     done
 fi
 
+TARCMD=${TARCMD::-1}
+
 # Run tar
 tar ${TARCMD}
+
+log "Created file ${TARFILE}" 
 
 BACKUPSIZE=$(du -h "${TARFILE}" | cut -f1)
 log "Tar backup complete. Filesize: ${BACKUPSIZE}"; log ""
