@@ -97,14 +97,6 @@ fi
 # Run tar
 tar ${TARCMD}
 
-# Encrypt tar file
-log "Encrypting backup"
-openssl enc -aes256 -in "${TARFILE}" -out "${TARFILE}".enc -pass pass:"${BACKUPPASS}" -md sha1
-log "Encryption completed"
-
-# Delete unencrypted tar
-rm "${TARFILE}"
-
 BACKUPSIZE=$(du -h "${TARFILE}".enc | cut -f1)
 log "Tar backup complete. Filesize: ${BACKUPSIZE}"; log ""
 
