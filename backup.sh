@@ -97,7 +97,7 @@ fi
 # Run tar
 tar ${TARCMD}
 
-BACKUPSIZE=$(du -h "${TARFILE}".enc | cut -f1)
+BACKUPSIZE=$(du -h "${TARFILE}" | cut -f1)
 log "Tar backup complete. Filesize: ${BACKUPSIZE}"; log ""
 
 ### END OF TAR BACKUP ###
