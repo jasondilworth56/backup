@@ -56,7 +56,7 @@ deleteBackups() {
     cd "${BACKUPDIR}" || exit
 
     #Iterate over all .enc files
-    for f in *.enc; do
+    for f in *.tgz; do
         KEEPFILE="NO"
         getFileDate "$f"
 
