@@ -54,6 +54,7 @@ deleteBackups() {
     SPACEUSED=0
 
     cd "${BACKUPDIR}" || exit
+    echo "Iterating";
 
     #Iterate over all .enc files
     for f in *.tgz; do
@@ -136,23 +137,18 @@ getAbsoluteConfig() {
 
 runLocally() {
     #Check if config is already loaded
-    if [ "${BACKUPHOSTNAME}" ]; then
-        # We're running on the remote server - config already loaded
-        BACKUPDIR=${REMOTEDIR}
-        AGEDAILIES=${REMOTEAGEDAILIES}
-        AGEWEEKLIES=${REMOTEAGEWEEKLIES}
-        AGEMONTHLIES=${REMOTEAGEMONTHLIES}
-    else
-        # We're running locally - load the config
-        getAbsoluteConfig
-        source "${CONFIG}"
-        
-        BACKUPDIR=${LOCALDIR}
-        AGEDAILIES=${LOCALAGEDAILIES}
-        AGEWEEKLIES=${LOCALAGEWEEKLIES}
-        AGEMONTHLIES=${LOCALAGEMONTHLIES}
-        BACKUPHOSTNAME=${HOSTNAME}
-    fi
+    # We're running locally - load the config
+    getAbsoluteConfig
+    source "${CONFIG}"
+     
+    BACKUPDIR=${LOCALDIR}
+    AGEDAILIES=${LOCALAGEDAILIES}
+    AGEWEEKLIES=${LOCALAGEWEEKLIES}
+    AGEMONTHLIES=${LOCALAGEMONTHLIES}
+    BACKUPHOSTNAME=${HOSTNAME}
+    echo "BACKUPDIR $BACKUPDIR";
+    echo "AGEDAILIES $LOCALAGEDAILIES";
+    echo "BACKUPHOSTNAME $HOSTNAME";
 
     #Everything hereon is run irrespective of whether we're on the local or remote machine
     deleteBackups
